@@ -35,8 +35,6 @@ def scanFileToSend(path, destPath):
         print("The source folder '" + filesPath +
               "' does not exist!!\n")
     else:
-        # listOfFile = os.listdir(filesPath)
-        # listOfFile.sort(key=os.path.getctime)
 
         list_of_files = filter(lambda x: os.path.isfile(os.path.join(filesPath, x)),
                                os.listdir(filesPath))
