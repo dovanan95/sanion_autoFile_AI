@@ -13,15 +13,15 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 import multiprocessing as mp
-#import requests
+import requests
 
 from helpers.helpers import GetDataHeader, GetDataBody, plot_3D, plotHeatmap, test
 
 
 checkingTime = datetime.datetime.fromtimestamp(0)
 
-sourcePath = "D:\\dev\\dev\\autoFile\\src_data"
-destPath = "D:\\dev\\dev\\autoFile\\data"
+sourcePath = "C:\\Projects\\AI Modeling\Data\Sunsan\\void"
+destPath = "C:\\Projects\\backGroundTask\\data"
 AI_url = 'http://172.26.242.101:5001/data-portal-image-file'
 
 lock = threading.Lock()
@@ -35,6 +35,8 @@ def scanFileToSend(path, destPath):
         print("The source folder '" + filesPath +
               "' does not exist!!\n")
     else:
+        # listOfFile = os.listdir(filesPath)
+        # listOfFile.sort(key=os.path.getctime)
 
         list_of_files = filter(lambda x: os.path.isfile(os.path.join(filesPath, x)),
                                os.listdir(filesPath))
@@ -77,6 +79,8 @@ def preprocessing():
             pickle.dump(result, picklefile)
 
             picklefile.close()
+            _f.close()
+            os.remove(fpath)
 
 
 def generatingImage():
@@ -89,7 +93,7 @@ def generatingImage():
                 datpfilePath = fpath.replace('.p', '.dat')
 
                 datpfilePath = datpfilePath.replace('\\', '/')
-                os.remove(datpfilePath)
+                # os.remove(datpfilePath)
                 datapoint = np.array(pickle.load(pfile))
                 i = 0
                 for i in range(60):  # Output per second graphs of the pickle files
@@ -110,7 +114,6 @@ def generatingImage():
 
 def sendFileToAI():
     print('send file')
-    '''
     for fname in os.listdir(destPath):
         if (fname.endswith('.png')):
             fpath = os.path.join(destPath, fname)
@@ -120,7 +123,6 @@ def sendFileToAI():
             files.clear()
             if (r.status_code == 200):
                 os.remove(fpath)
-    '''
 
 
 def cleanFolder():
