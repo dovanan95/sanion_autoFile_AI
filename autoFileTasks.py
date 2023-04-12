@@ -118,8 +118,10 @@ def sendFileToAI():
         if (fname.endswith('.png')):
             fpath = os.path.join(destPath, fname)
             fpath = fpath.replace('\\', '/')
-            files = {'file': open(fpath, 'rb')}
+            _f = open(fpath, 'rb')
+            files = {'file': _f}
             r = requests.post(AI_url, files=files)
+            _f.close()
             files.clear()
             if (r.status_code == 200):
                 os.remove(fpath)
